@@ -58,10 +58,8 @@ The Dell device (or any other device) requires multiple physical ports to effect
 
 For this, a **2-Port Network Interface Card (NIC)** had to be installed in the free PCI-e slot of the Dell device. The goal is to ensure the physical separation of WAN traffic from internal network traffic (LAN/VLAN).
 
-<img src="images/1_DEll pc.jpeg" alt="Preparing the Hardware for NIC Mounting" width="400"/>
+<img src="images/1_DEll pc.jpeg" alt="Preparing the Hardware for NIC Mounting" width="500"/> <img src="images/4_Nic with 2 ports on Dell.jpeg" alt="NIC mounted" width="500"/>
 
-
-<img src="images/4_Nic with 2 ports on Dell.jpeg" alt="NIC mounted" width="400"/>
 
 During work on the computer, we ensure that an anti-static mat and a wrist strap are used to prevent damage to the computer components from static electrical discharge.
 
@@ -98,13 +96,13 @@ We perform the necessary configurations in pfSense and create the 2 VLANs, activ
 
 We tested **ping**, but it did not work without making the necessary changes in the Firewall. After creating a new rule in the firewall and activating **File and Printer Sharing** for private networks, a ping from 192.168.30.10 to 192.168.30.11 successfully worked. The reverse also worked.
 
-FOTO (Ping)
+<img src="images/12_Ping von von 10 to 11 in VLAN 30.png" alt="ping test" width="500"/>
 
 ### 1.4. Switch Configuration
 
 While performing the necessary configurations in pfSense, we must do the same on the Switch. We connect the Switch to the laptop with a **console cable**, where the necessary configurations are carried out in **MobaXterm**.
 
-FOTO (Switch)
+<img src="images/11_show vlan brief.jpg" alt="Show vlan brief in Cisco Switch connected to MobaXterm" width="500"/>
 
 ### 1.5. Port Tagging
 
@@ -117,11 +115,15 @@ These two ports are tagged as follows:
 | **WAN** | pfSense: WAN |
 | **LAN/TRUNK** | pfSense: LAN (Trunk Interface) |
 
+<img src="images/6_pfsense tagging.jpeg" alt="pfSENSE tagging" width="500"/>
+
 On the Switch, we have ports which we tag as follows:
 
 | Switch Port | Role | Configuration | Tagging Notes |
 | :--- | :--- | :--- | :--- |
 | **Gi0/1 (TRUNK)** | Trunk Port (Connects to pfSense LAN/TRUNK) | `switchport mode trunk` | SW: Gi0/1 (Trunk) - Pfsense: LAN-IF |
+
+<img src="images/8_switch tagging 2.jpeg" alt="Switch tagging" width="500"/>
 
 We also tag the other ports as follows:
 
@@ -133,7 +135,7 @@ We also tag the other ports as follows:
 | **Fa 0/4** | Client D (VLAN 40) | Access Port for VLAN 40 | SW: Fa 0/4 (V40) - Pc – IT - 06 |
 | **Fa 0/5** | Printer | Access Port for VLAN 1 | SW: Fa 0/5 (V1) - Printer HP |
 
-FOTO (Tagging)
+<img src="images/7_Switch and pfsense.jpeg" alt="pfSENSE and Switch tagging" width="500"/>
 
 If we want to connect 4 computers to Port 1, and 3 computers to Port 2, we can do this by using unmanaged switches connected to these access ports.
 
