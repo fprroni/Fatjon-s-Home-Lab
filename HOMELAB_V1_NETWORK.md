@@ -46,9 +46,9 @@ These devices are used to emulate end-users and test the rules I have configured
 
 ## 1. Plan: Network Setup and Topology Description
 
-Our Home Lab network plan utilizes a hybrid architecture: it is physically structured as an Extended Star Topology, while logically operating as an Industry-Standard Router-on-a-Stick (RoaS), using a Cisco Catalyst 2960-C Switch for controlled segmentation.
+My Home Lab network plan utilizes a hybrid architecture: it is physically structured as an Extended Star Topology, while logically operating as an Industry-Standard Router-on-a-Stick (RoaS), using a Cisco Catalyst 2960-C Switch for controlled segmentation.
 
-Physically, the network is configured as an Extended Star Topology. All end devices, including the Hypervisor Host and administrative workstations, are individually connected via dedicated cables to the central switching hub, which is the Cisco Catalyst 2960-C Series Switch. This setup is highly reliable and simplifies physical troubleshooting.
+Extended Star Topology: All end devices, including the Hypervisor Host and administrative workstations, are individually connected via dedicated cables to the central switching hub, which is the Cisco Switch. This setup is highly reliable and simplifies physical troubleshooting.
 
 Logically, the network utilizes the Router-on-a-Stick (RoaS) architecture to enforce segmentation via VLANs (1, 30, and 40). This model is built on a single TRUNK link between the Cisco 2960-C Switch (handling Layer 2 segmentation) and the pfSense Firewall (handling Layer 3 routing). This ensures all traffic passing between the VLANs is subjected to strict security policies defined on the pfSense firewall.
 
@@ -64,31 +64,31 @@ The Dell device (or any other device) requires multiple physical ports to effect
 
 <img src="images/1_DEll pc.jpeg" alt="Preparing the Hardware for NIC Mounting" width="600"/> 
 
-For this, a **2-Port Network Interface Card (NIC)** had to be installed in the free PCI-e slot of the Dell device. The goal is to ensure the physical separation of WAN traffic from internal network traffic (LAN/VLAN).
+For this, a **2-Port Network Interface Card (NIC)** had to be installed in the free PCI-e slot of the Dell device. The goal was to ensure the physical separation of WAN traffic from internal network traffic (LAN/VLAN).
 
 <img src="images/2_Nic1.jpeg" alt="NIC" width="335"/>      <img src="images/4_Nic with 2 ports on Dell.jpeg" alt="NIC mounted" width="600"/> 
 
-During work on the computer, we ensure that an anti-static mat and a wrist strap are used to prevent damage to the computer components from static electrical discharge.
+During work on the computer, I ensured that an anti-static mat and a wrist strap were used to prevent damage to the computer components from static electrical discharge.
 
 #### B) Initial Installation and Configuration of pfSense
 
-After the hardware installation, the pfSense operating system was installed directly onto the hard drive of the Dell device. This required a USB drive (min. 8 GB), Balena Etcher, and the pfSense image. First, we install it, and then we connect to the pfSense interface from a laptop, removing the keyboard and monitor from the pfSense computer.
+After the hardware installation, the pfSense operating system was installed directly onto the hard drive of the Dell device. This required a USB drive (min. 8 GB), Balena Etcher, and the pfSense image. First, I installed it, and then i connect to the pfSense interface from a laptop, removing the keyboard and monitor from the pfSense computer.
 
 ### 1.2. Preparing the Ethernet Cables
 
-For our plan, we need additional Ethernet cables for connections. We need a cable to connect pfSense to the Router, one to connect pfSense to the Switch, and several other Ethernet cables to connect the Switch to the other computers.
+For my plan, I needed additional Ethernet cables for connections. I needed a cable to connect pfSense to the Router, one to connect pfSense to the Switch, and several other Ethernet cables to connect the Switch to the other computers.
 
-I bought a long cable, which was cut into parts as needed, and the **RJ45 connectors** were assembled using the appropriate tool. We are using the **T568B standard**, which arranges the colors in this order (with the connector tab facing down): 1. White/Orange, 2. Orange, 3. White/Green, 4. Blue, 5. White/Blue, 6. Green, 7. White/Brown, and 8. Brown.
+I bought a long cable, which was cut into parts as needed, and the **RJ45 connectors** were assembled using the appropriate tool. I used the **T568B standard**, which arranges the colors in this order (with the connector tab facing down): 1. White/Orange, 2. Orange, 3. White/Green, 4. Blue, 5. White/Blue, 6. Green, 7. White/Brown, and 8. Brown.
 
 <img src="images/5_ethernet cable.jpeg" alt="Preparing ethernet cables" width="500"/>
 
-### 1.3. Segmentation into 3 VLANs: 1 Default LAN and 2 Dedicated VLANs
+### 1.3. Segmentation into 3 VLANs
 
-We configure pfSense and create 2 new VLANs. We leave the default LAN to manage pfSense and the Switch until we create a dedicated Management VLAN, after which we will convert the default LAN into a **Blackhole VLAN**.
+I configured pfSense and created 2 new VLANs. I left the default VLAN to manage pfSense and the Switch until we create a dedicated Management VLAN, after which we will convert the default VLAN into a **Blackhole VLAN**.
 
-Initially, we create 2 VLANs:
+Initially, I created 2 VLANs:
 
-* **VLAN 30** for the **IT Department** (where we will have servers, databases, etc.).
+* **VLAN 30** for the **IT Department** (where we will have servers, Hyper V, databases, etc.).
 * **VLAN 40** for **Employees** (*Mitarbeiter*), where all other employees will be located.
 
 <img src="images/10_pfsense VLAN.png" alt="configuring VLANs in pfSENSE" width="500"/>
@@ -99,15 +99,15 @@ This provides three main benefits:
 2.  **Performance and Traffic Management:** VLANs help reduce the size of the **Broadcast Domain**. This increases efficiency by resulting in less network load for both other employees and the IT department.
 3.  **Organization:** VLANs make our network more organized and easier to manage. We immediately know if an IP belongs to the IT Department or an Employee, which helps us solve problems faster. We can also create specific rules in the Firewall for IT and for the other employees.
 
-We perform the necessary configurations in pfSense and create the 2 VLANs, activating the **DHCP server** on pfSense for these VLANs. Our computers will then receive IP addresses from these networks.
+I performed the necessary configurations in pfSense and create the 2 VLANs, activating the **DHCP server** on pfSense for these VLANs.  Computers will then receive IP addresses from these networks.
 
-We tested **ping**, but it did not work without making the necessary changes in the Firewall. After creating a new rule in the firewall and activating **File and Printer Sharing** for private networks, a ping from 192.168.30.10 to 192.168.30.11 successfully worked. The reverse also worked.
+I tested **ping**, but it did not work without making the necessary changes in the Firewall. After creating a new rule in the firewall and activating **File and Printer Sharing** for private networks, a ping from 192.168.30.10 to 192.168.30.11 successfully worked. The reverse also worked.
 
 <img src="images/12_Ping von von 10 to 11 in VLAN 30.png" alt="ping test" width="500"/>
 
 ### 1.4. Switch Configuration
 
-While performing the necessary configurations in pfSense, we must do the same on the Switch. We connect the Switch to the laptop with a **console cable**, where the necessary configurations are carried out in **MobaXterm**.
+While performing the necessary configurations in pfSense, I do the same on the Switch. I connect the Switch to the laptop with a **console cable**, where the necessary configurations are carried out in **MobaXterm**.
 
 <img src="images/11_show vlan brief.jpg" alt="Show vlan brief in Cisco Switch connected to MobaXterm" width="500"/>
 
@@ -142,9 +142,7 @@ We also tag the other ports as follows:
 | **Fa 0/4** | Client D (VLAN 40) | Access Port for VLAN 40 | SW: Fa 0/4 (V40) - Pc – IT - 06 |
 | **Fa 0/5** | Printer | Access Port for VLAN 1 | SW: Fa 0/5 (V1) - Printer HP |
 
-<img src="images/7_Switch and pfsense.jpeg" alt="pfSENSE and Switch tagging" width="500"/>
-
-If we want to connect 4 computers to Port 1, and 3 computers to Port 2, we can do this by using unmanaged switches connected to these access ports.
+If we want to connect, let us say 4 computers to Port 1, and 3 computers to Port 2, we can do this by using unmanaged switches connected to these access ports.
 
 ---
 
