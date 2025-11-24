@@ -44,9 +44,15 @@ These devices are used to emulate end-users and test the rules I have configured
 
 ---
 
-## 1. Plan: Network Setup with VLANs and pfSense
+## 1. Plan: Network Setup and Topology Description
 
-The plan is to build a network using **Virtual Local Area Networks (VLANs)**, a dedicated **pfSense Firewall** on a physical computer, and a **Managed Switch**.
+Our Home Lab network plan utilizes a hybrid architecture: it is physically structured as an Extended Star Topology, while logically operating as an Industry-Standard Router-on-a-Stick (RoaS), using a Cisco Catalyst 2960-C Switch for controlled segmentation.
+
+Physically, the network is configured as an Extended Star Topology. All end devices, including the Hypervisor Host and administrative workstations, are individually connected via dedicated cables to the central switching hub, which is the Cisco Catalyst 2960-C Series Switch. This setup is highly reliable and simplifies physical troubleshooting.
+
+Logically, the network utilizes the Router-on-a-Stick (RoaS) architecture to enforce segmentation via VLANs (1, 30, and 40). This model is built on a single TRUNK link between the Cisco 2960-C Switch (handling Layer 2 segmentation) and the pfSense Firewall (handling Layer 3 routing). This ensures all traffic passing between the VLANs is subjected to strict security policies defined on the pfSense firewall.
+
+<images/homelab typology.jpg" alt="Home Lab Typology" width="800"/>
 
 ### 1.1. Preparing the Physical Firewall
 
@@ -122,7 +128,7 @@ On the Switch, we have ports which we tag as follows:
 
 | Switch Port | Role | Configuration | Tagging Notes |
 | :--- | :--- | :--- | :--- |
-| **Gi0/1 (TRUNK)** | Trunk Port (Connects to pfSense LAN/TRUNK) | `switchport mode trunk` | SW: Gi0/1 (Trunk) - Pfsense: LAN-IF |
+| **Gi0/1 (TRUNK)** | Trunk Port (Connects to pfSense LAN/TRUNK) | "Switchport mode Trunk" | SW: Gi0/1 (Trunk) - Pfsense: LAN-IF |
 
 <img src="images/8_switch tagging 2.jpeg" alt="Switch tagging" width="500"/>
 
