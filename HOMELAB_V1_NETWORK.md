@@ -58,7 +58,10 @@ The Dell device (or any other device) requires multiple physical ports to effect
 
 For this, a **2-Port Network Interface Card (NIC)** had to be installed in the free PCI-e slot of the Dell device. The goal is to ensure the physical separation of WAN traffic from internal network traffic (LAN/VLAN).
 
-FOTO (NIC Installation)
+<img src="images/1_DEll pc.jpeg" alt="Preparing the Hardware for NIC Mounting" width="400"/>
+
+
+<img src="images/4_Nic with 2 ports on Dell.jpeg" alt="NIC mounted" width="400"/>
 
 During work on the computer, we ensure that an anti-static mat and a wrist strap are used to prevent damage to the computer components from static electrical discharge.
 
@@ -72,7 +75,7 @@ For our plan, we need additional Ethernet cables for connections. We need a cabl
 
 I bought a long cable, which was cut into parts as needed, and the **RJ45 connectors** were assembled using the appropriate tool. We are using the **T568B standard**, which arranges the colors in this order (with the connector tab facing down): 1. White/Orange, 2. Orange, 3. White/Green, 4. Blue, 5. White/Blue, 6. Green, 7. White/Brown, and 8. Brown.
 
-<img src="images/5_ethernet cable.jpeg" alt="VLANs in pfSENSE" width="500"/>
+<img src="images/5_ethernet cable.jpeg" alt="Preparing ethernet cables" width="500"/>
 
 ### 1.3. Segmentation into 3 VLANs: 1 Default LAN and 2 Dedicated VLANs
 
@@ -83,7 +86,7 @@ Initially, we create 2 VLANs:
 * **VLAN 30** for the **IT Department** (where we will have servers, databases, etc.).
 * **VLAN 40** for **Employees** (*Mitarbeiter*), where all other employees will be located.
 
-<img src="images/10_pfsense VLAN.png" alt="VLANs in pfSENSE" width="500"/>
+<img src="images/10_pfsense VLAN.png" alt="configuring VLANs in pfSENSE" width="500"/>
 
 This provides three main benefits:
 
