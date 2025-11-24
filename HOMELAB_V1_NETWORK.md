@@ -136,8 +136,8 @@ We also tag the other ports as follows:
 
 | Switch Port(s) | Role | Configuration | Tagging Notes |
 | :--- | :--- | :--- | :--- |
-| **Fa 0/1** | Client A (VLAN 30) | Access Port for VLAN 30 | SW: Fa 0/1 (V30) - Pc – IT - 01 |
-| **Fa 0/2** | Client B (VLAN 30) | Access Port for VLAN 30 | SW: Fa 0/2 (V30) - Pc – IT - 02 |
+| **Fa 0/1** | IT Admin - Hyper V Host (VLAN 30) | Access Port for VLAN 30 | SW: Fa 0/1 (V30) - Pc – IT - 01 |
+| **Fa 0/2** | IT Department (VLAN 30) | Access Port for VLAN 30 | SW: Fa 0/2 (V30) - Pc – IT - 02 |
 | **Fa 0/3** | Client C (VLAN 40) | Access Port for VLAN 40 | SW: Fa 0/3 (V40) - Pc – IT - 05 |
 | **Fa 0/4** | Client D (VLAN 40) | Access Port for VLAN 40 | SW: Fa 0/4 (V40) - Pc – IT - 06 |
 | **Fa 0/5** | Printer | Access Port for VLAN 1 | SW: Fa 0/5 (V1) - Printer HP |
