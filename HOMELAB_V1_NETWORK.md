@@ -83,7 +83,7 @@ Initially, we create 2 VLANs:
 * **VLAN 30** for the **IT Department** (where we will have servers, databases, etc.).
 * **VLAN 40** for **Employees** (*Mitarbeiter*), where all other employees will be located.
 
-*<img src="[path/to/your/image.jpg](https://github.com/fprroni/Fatjon-s-Home-Lab/blob/main/images/10_pfsense%20VLAN.png)" alt="VLANs in pfSENSE" width="300"/>
+*<img src="[images/10_pfsense VLAN.png)" alt="VLANs in pfSENSE" width="300"/>
 *
 
 This provides three main benefits:
