@@ -72,7 +72,7 @@ For our plan, we need additional Ethernet cables for connections. We need a cabl
 
 I bought a long cable, which was cut into parts as needed, and the **RJ45 connectors** were assembled using the appropriate tool. We are using the **T568B standard**, which arranges the colors in this order (with the connector tab facing down): 1. White/Orange, 2. Orange, 3. White/Green, 4. Blue, 5. White/Blue, 6. Green, 7. White/Brown, and 8. Brown.
 
-FOTO (Ethernet Cable and RJ45 Connector)
+<img src="images/5_ethernet cable.jpeg" alt="VLANs in pfSENSE" width="500"/>
 
 ### 1.3. Segmentation into 3 VLANs: 1 Default LAN and 2 Dedicated VLANs
 
@@ -83,8 +83,7 @@ Initially, we create 2 VLANs:
 * **VLAN 30** for the **IT Department** (where we will have servers, databases, etc.).
 * **VLAN 40** for **Employees** (*Mitarbeiter*), where all other employees will be located.
 
-*<img src="images/10_pfsense VLAN.png" alt="VLANs in pfSENSE" width="300"/>
-*
+<img src="images/10_pfsense VLAN.png" alt="VLANs in pfSENSE" width="500"/>
 
 This provides three main benefits:
 
