@@ -83,6 +83,8 @@ Initially, we create 2 VLANs:
 * **VLAN 30** for the **IT Department** (where we will have servers, databases, etc.).
 * **VLAN 40** for **Employees** (*Mitarbeiter*), where all other employees will be located.
 
+* https://github.com/fprroni/Fatjon-s-Home-Lab/blob/main/images/10_pfsense%20VLAN.png
+
 This provides three main benefits:
 
 1.  **Security and Isolation:** VLANs logically segment the network, preventing devices in one group from seeing or communicating directly with devices in another group, unless you specifically allow it with rules in pfSense. If a computer in VLAN 40 is infected with a virus, its spread is limited within that VLAN and cannot easily move to IT devices or the Router.
