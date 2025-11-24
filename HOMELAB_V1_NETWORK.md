@@ -60,7 +60,7 @@ The Dell device (or any other device) requires multiple physical ports to effect
 
 For this, a **2-Port Network Interface Card (NIC)** had to be installed in the free PCI-e slot of the Dell device. The goal is to ensure the physical separation of WAN traffic from internal network traffic (LAN/VLAN).
 
-<img src="images/2_Nic1.jpeg" alt="NIC" width="330"/>      <img src="images/4_Nic with 2 ports on Dell.jpeg" alt="NIC mounted" width="600"/> 
+<img src="images/2_Nic1.jpeg" alt="NIC" width="335"/>      <img src="images/4_Nic with 2 ports on Dell.jpeg" alt="NIC mounted" width="600"/> 
 
 During work on the computer, we ensure that an anti-static mat and a wrist strap are used to prevent damage to the computer components from static electrical discharge.
 
