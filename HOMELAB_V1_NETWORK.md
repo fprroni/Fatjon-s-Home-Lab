@@ -56,9 +56,9 @@ A critical step in setting up the home lab was ensuring the necessary network ca
 
 The Dell device (or any other device) requires multiple physical ports to effectively manage traffic: one for the **WAN** connection (Internet) and at least one more for the **TRUNK/LAN** connection to the Cisco managed switch (Layer 2).
 
-For this, a **2-Port Network Interface Card (NIC)** had to be installed in the free PCI-e slot of the Dell device. The goal is to ensure the physical separation of WAN traffic from internal network traffic (LAN/VLAN).
-
 <img src="images/1_DEll pc.jpeg" alt="Preparing the Hardware for NIC Mounting" width="600"/> 
+
+For this, a **2-Port Network Interface Card (NIC)** had to be installed in the free PCI-e slot of the Dell device. The goal is to ensure the physical separation of WAN traffic from internal network traffic (LAN/VLAN).
 
 <img src="images/4_Nic with 2 ports on Dell.jpeg" alt="NIC mounted" width="600"/> 
 
