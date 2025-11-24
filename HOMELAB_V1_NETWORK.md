@@ -52,7 +52,7 @@ Physically, the network is configured as an Extended Star Topology. All end devi
 
 Logically, the network utilizes the Router-on-a-Stick (RoaS) architecture to enforce segmentation via VLANs (1, 30, and 40). This model is built on a single TRUNK link between the Cisco 2960-C Switch (handling Layer 2 segmentation) and the pfSense Firewall (handling Layer 3 routing). This ensures all traffic passing between the VLANs is subjected to strict security policies defined on the pfSense firewall.
 
-<images/homelab typology.jpg" alt="Home Lab Typology" width="800"/>
+<img src="images/homelab typology.jpg" alt="Home Lab Typology" width="800"/>
 
 ### 1.1. Preparing the Physical Firewall
 
