@@ -58,8 +58,9 @@ The Dell device (or any other device) requires multiple physical ports to effect
 
 For this, a **2-Port Network Interface Card (NIC)** had to be installed in the free PCI-e slot of the Dell device. The goal is to ensure the physical separation of WAN traffic from internal network traffic (LAN/VLAN).
 
-<img src="images/1_DEll pc.jpeg" alt="Preparing the Hardware for NIC Mounting" width="500"/> <img src="images/4_Nic with 2 ports on Dell.jpeg" alt="NIC mounted" width="500"/>
+<img src="images/1_DEll pc.jpeg" alt="Preparing the Hardware for NIC Mounting" width="600"/> 
 
+<img src="images/4_Nic with 2 ports on Dell.jpeg" alt="NIC mounted" width="600"/> 
 
 During work on the computer, we ensure that an anti-static mat and a wrist strap are used to prevent damage to the computer components from static electrical discharge.
 
@@ -143,6 +144,6 @@ If we want to connect 4 computers to Port 1, and 3 computers to Port 2, we can d
 
 ## Next Steps
 
-* **Create VLAN for Management (VLAN 33):** In the following steps, we will create a separate VLAN for the management of the printer, Switch, pfSense, etc.
+* **Create VLAN for Management:** In the following steps, we will create a separate VLAN for the management of the printer, Switch, pfSense, etc.
 * **Install Kali Linux with Wireshark:** We will install a Kali Linux VM with Wireshark in Hyper-V to monitor network traffic.
 * **Blackhole VLAN:** VLAN 1 will be converted into a Blackhole VLAN to secure the network.
