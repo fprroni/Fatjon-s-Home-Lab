@@ -80,7 +80,7 @@ For my plan, I needed additional Ethernet cables for connections. I needed a cab
 
 I bought a long cable, which was cut into parts as needed, and the **RJ45 connectors** were assembled using the appropriate tool. I used the **T568B standard**, which arranges the colors in this order (with the connector tab facing down): 1. White/Orange, 2. Orange, 3. White/Green, 4. Blue, 5. White/Blue, 6. Green, 7. White/Brown, and 8. Brown.
 
-<img src="images/5_ethernet cable.jpeg" alt="Preparing ethernet cables" width="500"/>
+<img src="images/5_ethernet cable.jpeg" alt="Preparing ethernet cables" width="700"/>
 
 ### 1.3. Segmentation into 3 VLANs
 
