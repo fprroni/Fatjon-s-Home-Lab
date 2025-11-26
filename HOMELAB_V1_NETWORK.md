@@ -44,7 +44,7 @@ These devices are used to emulate end-users and test the rules I have configured
 
 ---
 
-## 1. Plan: Network Setup and Topology Description
+## Phase 1 Plan:: Network Setup and Topology Description
 
 My Home Lab network plan utilizes a hybrid architecture: it is physically structured as an Extended Star Topology, while logically operating as an Industry-Standard Router-on-a-Stick (RoaS), using a Cisco Catalyst 2960-C Switch for controlled segmentation.
 
@@ -144,10 +144,50 @@ We also tag the other ports as follows:
 
 If we want to connect, let us say 4 computers to Port 1, and 3 computers to Port 2, we can do this by using unmanaged switches connected to these access ports.
 
+
+
+# Phase 2 Plan: Integrated Virtual Training Network (Hyper-V)
+
+Here I plan to integrate a virtual environment into my existing physical Home Lab, serving as a comprehensive platform for practicing **efficient deployment**, **OS management (Dual Boot)**, **network configuration**, and **traffic analysis (Monitoring)**.
+
+My Primary Objectives are:
+* **Integration:** Seamlessly connect the Hyper-V network to the physical **VLAN 30** subnet via the host's NIC and the pfSense gateway.
+* **Efficiency:** Validate the use of a **Master Windows Base Hard Disk (VHDX)** and **Differencing Disks** for rapid, space-saving deployment of multiple target systems.
+* **Skill Development:** Create a versatile training network featuring a **Kali Linux monitoring station** and **Windows Target VMs** configured for **Dual Boot** practice.
+
+The entire virtual subnet will reside logically within my physical VLAN 30 boundary, utilizing the existing pfSense Layer 3 routing capabilities.
+
 ---
 
-## Next Steps
+## Network Architecture Summary (VLAN 30 Subnet)
 
-* **Create VLAN for Management:** In the following steps, we will create a separate VLAN for the management of the printer, Switch, pfSense, etc.
-* **Install Kali Linux with Wireshark:** We will install a Kali Linux VM with Wireshark in Hyper-V to monitor network traffic.
-* **Blackhole VLAN:** VLAN 1 will be converted into a Blackhole VLAN to secure the network.
+| Component | Function / Practice Area | Connection Point | IP Scheme |
+| :--- | :--- | :--- | :--- |
+| **Virtual Switch** | External Switch (`VLAN30_Bridge`) | Physical NIC (VLAN 30 Access Port) | N/A |
+| **Gateway / Firewall** | pfSense (Physical) | Cisco Switch (Trunk Port) | **192.168.30.1** |
+| **Training VM 1** | Kali Linux / Monitoring & Analysis | `VLAN30_Bridge` | **192.168.30.10** |
+| **Training VMs (x3)** | Windows/Linux / Dual Boot & Base Disk Practice | `VLAN30_Bridge` | **192.168.30.20-22** |
+
+---
+
+## Kali Linux VM Configuration
+
+This Virtual Machine serves as the dedicated monitoring and analysis station within the integrated training network.
+
+| Setting | Configuration | Rationale |
+| :--- | :--- | :--- |
+| **Operating System** | Kali Linux | Platform for network analysis (Wireshark) and security tooling. |
+| **Virtual Switch** | **External Switch** (`VLAN30_Bridge`) | Allows the VM to communicate directly with the physical **VLAN 30** subnet via pfSense. |
+| **RAM** | **2048 MB (2 GB)** | Sufficient for running the base OS and Wireshark for analysis. |
+| **Virtual Processors** | **2 Cores** | Provides adequate processing power for concurrent network capture and tool usage. |
+| **IP Address** | **Static: 192.168.30.10** | Ensures the monitor is always accessible and correctly routed by pfSense. |
+
+---
+
+**Status Update:** The Kali Linux VM is now successfully provisioned with the specified resources and Wireshark is ready...
+
+---
+
+**Work in Progress...**
+
+
