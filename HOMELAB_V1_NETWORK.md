@@ -186,6 +186,8 @@ This Virtual Machine serves as the dedicated monitoring and analysis station wit
 
 **Status Update:** The Kali Linux VM is now successfully provisioned with the specified resources and Wireshark is ready...
 
+<img src="images/Kali.jpg" alt="Kali Linux" width="500"/>
+
 ---
 
 **Work in Progress...**
