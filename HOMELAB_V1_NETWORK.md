@@ -91,7 +91,7 @@ Initially, I created 2 VLANs:
 * **VLAN 30** for the **IT Department** (where we will have servers, Hyper V, databases, etc.).
 * **VLAN 40** for **Employees** (*Mitarbeiter*), where all other employees will be located.
 
-<img src="images/10_pfsense VLAN.png" alt="configuring VLANs in pfSENSE" width="500"/>
+<img src="images/new regel firewall.png" alt="New Firewall rule" width="700"/>
 
 This provides three main benefits:
 
@@ -101,7 +101,11 @@ This provides three main benefits:
 
 I performed the necessary configurations in pfSense and create the 2 VLANs, activating the **DHCP server** on pfSense for these VLANs.  Computers will then receive IP addresses from these networks.
 
-I tested **ping**, but it did not work without making the necessary changes in the Firewall. After creating a new rule in the firewall and activating **File and Printer Sharing** for private networks, a ping from 192.168.30.10 to 192.168.30.11 successfully worked. The reverse also worked.
+I tested **ping**, but it did not work without making the necessary changes in the Firewall. 
+
+<img src="images/12_Ping von von 10 to 11 in VLAN 30.png" alt="ping test" width="500"/>
+
+After creating a new rule in the firewall and activating **File and Printer Sharing** for private networks, a ping from 192.168.30.10 to 192.168.30.11 successfully worked. The reverse also worked.
 
 <img src="images/12_Ping von von 10 to 11 in VLAN 30.png" alt="ping test" width="500"/>
 
