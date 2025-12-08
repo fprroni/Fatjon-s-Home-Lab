@@ -163,7 +163,7 @@ As the first step, I created a Virtual Machine in the Remotelab environment name
         * Used the Windows Server 2022 ISO image.
         * Connected it to a **Private virtual switch** to ensure communication only within the Remotelab environment.
 
-<img src="images/FPDC nga Hyper v.png" alt="FPDC setup from Hyper V" width="500"/>
+<img src="images/FPDC nga Hyper v.png" alt="FPDC setup from Hyper V" width="700"/>
 
       
   **Method 2: Windows Admin Center (WAC)**
@@ -174,15 +174,15 @@ As the first step, I created a Virtual Machine in the Remotelab environment name
   **Method 3: PowerShell Scripting**
         * Used a PowerShell command to create a VM named **FPServer2**, specifying the hard disk location, name, and ISO image path.
 
-  <img src="images/FPserver2 from Powershell.png" alt="FPServer2 setup from Powershell" width="500"/>
+  <img src="images/FPserver2 from Powershell.png" alt="FPServer2 setup from Powershell" width="700"/>
 
 ### 2. Problem Identified: Deep Nested Virtualization
 
 The setup initially appeared correct in both the Windows Admin Center and Hyper-V Manager. 
 
-<img src="images/Windows admin center.png" alt="Windows Admin Center" width="500"/>
+<img src="images/Windows admin center.png" alt="Windows Admin Center" width="700"/>
 
-<img src="images/Hyper V.png" alt="Hyper V" width="500"/>
+<img src="images/Hyper V.png" alt="Hyper V" width="700"/>
 
 However, **unexpected interruptions occurred**, and the root cause was identified as the use of **Level 4 Nested Virtualization**:
 
@@ -202,7 +202,7 @@ To resolve the issue and flatten the lab environment, the following action is re
 
 This configuration reduces the nesting to a supported three levels total (Level 1 → Level 2 → Level 3).
 
-<img src="images/serverat ne Hyper V win.png" alt="Servers in hyper V" width="500"/>
+<img src="images/serverat ne Hyper V win.png" alt="Servers in hyper V" width="700"/>
 
 ## 4. Environment Verification
 
@@ -253,7 +253,7 @@ This Virtual Machine serves as the dedicated monitoring and analysis station wit
 
 **Status Update:** The Kali Linux VM is now successfully provisioned with the specified resources...
 
-<img src="images/Kali.jpg" alt="Kali Linux" width="500"/>
+<img src="images/Kali.jpg" alt="Kali Linux" width="700"/>
 
 ---
 
