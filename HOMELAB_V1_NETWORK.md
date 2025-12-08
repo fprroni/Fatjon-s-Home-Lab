@@ -152,7 +152,7 @@ If we want to connect, let us say 4 computers to Port 1, and 3 computers to Port
 
 Here I detail the plan to set up an environment of **five (5) Virtual Machines (VMs)** inside a single host VM created in my Remotelab. The goal was to test and compare different methods of deploying virtual machines.
 
-### 1. Initial Setup and Nested Virtualization Attempt
+### 2.1. Initial Setup and Nested Virtualization Attempt
 
 As the first step, I created a Virtual Machine in the Remotelab environment named **VMHOSTFP1988**.
 
@@ -169,14 +169,14 @@ As the first step, I created a Virtual Machine in the Remotelab environment name
   **Method 2: Windows Admin Center (WAC)**
         * Arranged the creation of a new VM named **FPServer1**.
 
-  <img src=" images/FPserver1 from Windows Admin Center.png" alt="FPserver1 setup from Windows Admin Center" width="500"/>
+  <img src="images/FPserver1 from Windows Admin Center.png" alt="FPserver1 setup from Windows Admin Center" width="500"/>
         
   **Method 3: PowerShell Scripting**
         * Used a PowerShell command to create a VM named **FPServer2**, specifying the hard disk location, name, and ISO image path.
 
   <img src="images/FPserver2 from Powershell.png" alt="FPServer2 setup from Powershell" width="700"/>
 
-### 2. Problem Identified: Deep Nested Virtualization
+### 2.2. Problem Identified: Deep Nested Virtualization
 
 The setup initially appeared correct in both the Windows Admin Center and Hyper-V Manager. 
 
@@ -193,7 +193,7 @@ However, **unexpected interruptions occurred**, and the root cause was identifie
 
 **Hyper-V does not officially support or guarantee functionality beyond two levels of nesting.** The CPU virtualization extensions fail to pass through to the deepest level, causing the VM failures.
 
-### 3. Confirmed Solution
+### 2.3. Confirmed Solution
 
 To resolve the issue and flatten the lab environment, the following action is required:
 
@@ -204,7 +204,7 @@ This configuration reduces the nesting to a supported three levels total (Level 
 
 <img src="images/serverat ne Hyper V win.png" alt="Servers in hyper V" width="700"/>
 
-## 4. Environment Verification
+## 2.4. Environment Verification
 
 Following the successful implementation of the solution (reducing the nesting level), the core functionality of the virtual network was verified.
 
@@ -212,6 +212,7 @@ Following the successful implementation of the solution (reducing the nesting le
 * **Firewall Configuration:** Appropriate changes were made to the software firewall settings on the VMs to allow for successful communication and testing.
 
 This confirms that the new, supported nesting level allows for proper virtual machine operation and inter-VM communication within the Remotelab environment.
+
 
 # Phase 3 Plan: Integrated Virtual Training Network (Hyper-V)
 
