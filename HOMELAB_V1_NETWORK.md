@@ -148,9 +148,72 @@ We also tag the other ports as follows:
 
 If we want to connect, let us say 4 computers to Port 1, and 3 computers to Port 2, we can do this by using unmanaged switches connected to these access ports.
 
+## Phase 2: Windows Server Environment Setup in Remotelab (Hyper-V)
 
+Here I detail the plan to set up an environment of **five (5) Virtual Machines (VMs)** inside a single host VM created in my Remotelab. The goal was to test and compare different methods of deploying virtual machines.
 
-# Phase 2 Plan: Integrated Virtual Training Network (Hyper-V)
+### 1. Initial Setup and Nested Virtualization Attempt
+
+As the first step, I created a Virtual Machine in the Remotelab environment named **VMHOSTFP1988**.
+
+* I then configured this VM to run **Nested Virtualization** using a PowerShell command, turning it into a Hyper-V host itself (the **Hypervisor**).
+* Inside **VMHOSTFP1988**, I created five different Virtual Machines (my workload VMs) using three distinct methods:
+    * **Method 1: Hyper-V Manager**
+        * Created a **second-generation** VM named **FP_DC**.
+        * Used the Windows Server 2022 ISO image.
+        * Connected it to a **Private virtual switch** to ensure communication only within the Remotelab environment.
+
+<img src="images/FPDC nga Hyper v.png" alt="FPDC setup from Hyper V" width="500"/>
+
+      
+  **Method 2: Windows Admin Center (WAC)**
+        * Arranged the creation of a new VM named **FPServer1**.
+
+  <img src=" images/FPserver1 from Windows Admin Center.png" alt="FPserver1 setup from Windows Admin Center" width="500"/>
+        
+  **Method 3: PowerShell Scripting**
+        * Used a PowerShell command to create a VM named **FPServer2**, specifying the hard disk location, name, and ISO image path.
+
+  <img src="images/FPserver2 from Powershell.png" alt="FPServer2 setup from Powershell" width="500"/>
+
+### 2. Problem Identified: Deep Nested Virtualization
+
+The setup initially appeared correct in both the Windows Admin Center and Hyper-V Manager. 
+
+<img src="images/Windows admin center.png" alt="Windows Admin Center" width="500"/>
+
+<img src="images/Hyper V.png" alt="Hyper V" width="500"/>
+
+However, **unexpected interruptions occurred**, and the root cause was identified as the use of **Level 4 Nested Virtualization**:
+
+* **Level 1:** Physical Host
+* **Level 2:** Intermediate Hypervisor (**WIN-ILAOICTCTN9N**)
+* **Level 3:** Nested Hypervisor (**VMHostFP1988**)
+* **Level 4:** Workload VMs (FP_DC, FPServer1, etc.)
+
+**Hyper-V does not officially support or guarantee functionality beyond two levels of nesting.** The CPU virtualization extensions fail to pass through to the deepest level, causing the VM failures.
+
+### 3. Confirmed Solution
+
+To resolve the issue and flatten the lab environment, the following action is required:
+
+* **Delete VMHOSTFP1988 (Level 3)**.
+* **Create all Workload VMs (FP_DC, FPServer1, FPServer2, etc.) directly inside the WIN-ILAOICTCTN9N VM (Level 2).**
+
+This configuration reduces the nesting to a supported three levels total (Level 1 → Level 2 → Level 3).
+
+<img src="images/serverat ne Hyper V win.png" alt="Servers in hyper V" width="500"/>
+
+## 4. Environment Verification
+
+Following the successful implementation of the solution (reducing the nesting level), the core functionality of the virtual network was verified.
+
+* **Network Connectivity Test:** Connectivity between the virtual machines was successfully tested using the **ping** utility.
+* **Firewall Configuration:** Appropriate changes were made to the software firewall settings on the VMs to allow for successful communication and testing.
+
+This confirms that the new, supported nesting level allows for proper virtual machine operation and inter-VM communication within the Remotelab environment.
+
+# Phase 3 Plan: Integrated Virtual Training Network (Hyper-V)
 
 Here I plan to integrate a virtual environment into my existing physical Home Lab, serving as a comprehensive platform for practicing **efficient deployment**, **OS management (Dual Boot)**, **network configuration**, and **traffic analysis (Monitoring)**.
 
