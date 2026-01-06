@@ -46,7 +46,6 @@ Diese Geräte werden verwendet, um Endanwender zu simulieren und die in der pfSe
 Mein Netzwerkplan nutzt eine hybride Architektur: Physisch ist das Netzwerk als **erweiterte Stern-Topologie** strukturiert, während es logisch als industriestandardmäßiges **Router-on-a-Stick (RoaS)**-Konzept arbeitet. Zur kontrollierten Segmentierung wird ein Cisco Catalyst 2960-C Switch eingesetzt.
 
 
-
 ### Physischer Aufbau (Erweiterte Stern-Topologie)
 Alle Endgeräte, einschließlich des Hypervisor-Hosts und der Admin-Workstations, sind über dedizierte Kabel direkt mit dem zentralen Switch verbunden. Dieser Aufbau ist hochgradig zuverlässig und vereinfacht die physische Fehlersuche.
 
@@ -116,7 +115,18 @@ Beim anschließenden Testen der Verbindung mittels **Ping** stellte ich fest, da
 
 <img src="images/new regel firewall.png" alt="New Firewall rule" width="700"/>
 
-After creating a new rule in the firewall and activating **File and Printer Sharing** for private networks, a ping from 192.168.30.10 to 192.168.30.11 successfully worked. The reverse also worked.
+### Validierung der Konnektivität
+
+Nachdem die grundlegende Infrastruktur stand, wurde die Kommunikation innerhalb der VLANs getestet. Hierbei mussten zwei Hürden überwunden werden: die Netzwerksegmentierung auf Firewall-Ebene und die lokale Host-Firewall der Windows-Clients.
+
+#### Erfolgreicher ICMP-Test (Ping)
+Nach der Erstellung einer entsprechenden Erlaubnisregel (Pass Rule) in der pfSense-Firewall und der Aktivierung der **Datei- und Druckerfreigabe** (welche die notwendigen ICMP-Echos in der Windows-Firewall zulässt), konnte die Konnektivität bestätigt werden:
+
+* **Test:** Ping von `192.168.30.10` nach `192.168.30.11`
+* **Ergebnis:** Erfolgreich (Antwortzeit <1ms)
+* **Reversibler Test:** Der Ping in die umgekehrte Richtung war ebenfalls erfolgreich.
+
+Dies verifiziert, dass die Clients im **VLAN 30 (IT-Abteilung)** wie geplant miteinander kommunizieren können, während sie gleichzeitig durch die pfSense von anderen Segmenten isoliert bleiben.
 
 <img src="images/12_Ping von von 10 to 11 in VLAN 30.png" alt="ping test" width="500"/>
 
