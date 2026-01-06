@@ -240,31 +240,6 @@ Dies bestätigt, dass die neue, unterstützte Verschachtelungsebene einen ordnun
 
 ---
 
-# Phase 3 Plan: Integriertes virtuelles Trainingsnetzwerk (Hyper-V)
-
-In dieser Phase plane ich die Integration einer virtuellen Umgebung in mein bestehendes physisches Home-Lab. Diese dient als umfassende Plattform zum Üben von **effizientem Deployment**, **Betriebssystem-Management (Dual-Boot)**, **Netzwerkkonfiguration** und **Datenverkehrsanalyse (Monitoring)**.
-
-[Image of Integrated Hyper-V and physical network architecture diagram]
-
-### Meine Hauptziele:
-* **Integration:** Nahtlose Anbindung des Hyper-V-Netzwerks an das physische **VLAN 30**-Subnetz über die Netzwerkkarte (NIC) des Hosts und das pfSense-Gateway.
-* **Effizienz:** Validierung der Nutzung einer **Master-Windows-Basis-Festplatte (VHDX)** und **Differenzierenden Festplatten (Differencing Disks)** für ein schnelles und platzsparendes Deployment mehrerer Zielsysteme.
-* **Kompetenzentwicklung:** Aufbau eines vielseitigen Trainingsnetzwerks mit einer **Kali Linux Monitoring-Station** und **Windows-Ziel-VMs**, die für **Dual-Boot**-Übungen konfiguriert sind.
-
-Das gesamte virtuelle Subnetz wird logisch innerhalb der Grenzen meines physischen VLAN 30 angesiedelt sein und die bestehenden Layer-3-Routing-Fähigkeiten der pfSense nutzen.
-
----
-
-## Zusammenfassung der Netzwerkarchitektur (VLAN 30 Subnetz)
-
-| Komponente | Funktion / Übungsbereich | Verbindungspunkt | IP-Schema |
-| :--- | :--- | :--- | :--- |
-| **Virtueller Switch** | Externer Switch (`VLAN30_Bridge`) | Physische NIC (VLAN 30
-
-<img src="images/Kali.jpg" alt="Kali Linux" width="700"/>
-
----
-
 **In Bearbeitung / Work in Progress...**
 
 
