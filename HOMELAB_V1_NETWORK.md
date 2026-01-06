@@ -3,105 +3,116 @@
 Tel: +4915209017791 | Email: fatjonprroni@gmail.com
 
 ---
+# Willkommen zu meinem Home-Lab Projekt
 
-## Welcome to My Home Lab Project
-
-This project began in November 2025 and will be continuously updated until May 2026. The goal of this Home Lab is to **implement as much as possible of what I learn in school** and to **deepen my skills** in the field of IT with projects that involve physical computers and VMs.
-
-The language used in the documentation of this Home Lab is English, as it is anticipated that at least one of the "employees" will only speak English until they learn German. 😊
+Dieses Projekt begann im November 2025 und wird bis Mai 2026 kontinuierlich erweitert. Das Ziel dieses Home-Labs ist es, **die im Unterricht erlernten Inhalte so weit wie möglich praktisch umzusetzen** und meine **IT-Kenntnisse durch Projekte mit physischer Hardware und virtuellen Maschinen (VMs) zu vertiefen**.
 
 ---
 
-## Hardware Used: The Physical Home Lab Infrastructure
+## Verwendete Hardware: Die physische Infrastruktur
 
-I built my Home Lab from a mix of existing hardware. This includes the vocational school's virtual environment (Hyper-V Remote Lab), my personal computers that I use daily in school, and three old PCs.
+Mein Home-Lab wurde aus einer Mischung vorhandener Hardware aufgebaut. Dazu gehören die virtuelle Umgebung der Berufsschule (Hyper-V Remote Lab), meine täglich in der Schule genutzten PCs sowie drei ältere Rechner.
 
-In addition, I purchased a **2-Port Network Interface Card (NIC)**, a **Managed Layer 2 Switch**, Ethernet cables, and IT tools.
+Zusätzlich habe ich eine **2-Port-Netzwerkkarte (NIC)**, einen **Managed Layer-2-Switch**, Ethernet-Kabel und diverses IT-Werkzeug erworben.
 
 ---
 
-## The Core Network Devices (Core Infrastructure)
+## Kern-Netzwerkkomponenten (Core Infrastructure)
 
-These devices form the basis for Layer 2 and Layer 3 segmentation and traffic separation.
+Diese Geräte bilden die Basis für die Segmentierung auf Layer 2 und Layer 3 sowie für die Trennung des Datenverkehrs.
 
-| Device | Model / Type | Role in the Home Lab |
+| Gerät | Modell / Typ | Rolle im Home-Lab |
 | :--- | :--- | :--- |
-| **Dedicated PC (Firewall)** | **DELL** | **pfSense** (Physical) \| Traffic Control, Inter-VLAN Routing, Security (Layer 3) \| Low-end (2+ NICs) |
-| **Quad-Core Switch** | **Managed Layer 2 Switch** | Basic Segmentation (Trunk G0/1), Physical VLANs \| Layer 2 |
-| **Hypervisor Host** | **Acer Travelmate P216 (16 GB RAM)** | Workstation Host for VMs and Services (e.g., DNS/AD) \| VLAN 30 |
+| **Dedizierter PC (Firewall)** | **DELL** | **pfSense** (Physisch) \| Datenverkehrskontrolle, Inter-VLAN-Routing, Sicherheit (Layer 3) \| Low-End (2+ NICs) |
+| **Zentraler Switch** | **Managed Layer 2 Switch** | Basis-Segmentierung (Trunk G0/1), Physische VLANs \| Layer 2 |
+| **Hypervisor Host** | **Acer Travelmate P216 (16 GB RAM)** | Workstation-Host für VMs und Dienste (z. B. DNS/AD) \| VLAN 30 |
 
 ---
 
-## Test Clients
+## Test-Clients
 
-These devices are used to emulate end-users and test the rules I have configured in the pfSense firewall.
+Diese Geräte werden verwendet, um Endanwender zu simulieren und die in der pfSense-Firewall konfigurierten Regeln zu testen.
 
-| Device | Operating System | Special Characteristics |
+| Gerät | Betriebssystem | Besondere Merkmale |
 | :--- | :--- | :--- |
-| **Client A (Admin)** | **Windows 11 Pro** \| I5-1335U, 16 GB RAM | Administration \| Routing / Admin Workstation (VLAN 30) |
-| **Client B** | **Windows 8.1 Pro** \| Celeron N3050, 4 GB RAM | **Standard Client** (VLAN 40) |
-| **Client C** | **OS X El Capitan** \| Core i7, 4 GB RAM | **Client** \| **Connectivity Test** / Mac OS X Compatibility |
+| **Client A (Admin)** | **Windows 11 Pro** \| i5-1335U, 16 GB RAM | Administration \| Routing / Admin-Workstation (VLAN 30) |
+| **Client B** | **Windows 8.1 Pro** \| Celeron N3050, 4 GB RAM | **Standard-Client** (VLAN 40) |
+| **Client C** | **OS X El Capitan** \| Core i7, 4 GB RAM | **Client** \| **Konnektivitätstests** / macOS-Kompatibilität |
 
 ---
 
-## Phase 1 Plan:: Network Setup and Topology Description
+## Phase 1: Netzwerkplan und Topologiebeschreibung
 
-My Home Lab network plan utilizes a hybrid architecture: it is physically structured as an Extended Star Topology, while logically operating as an Industry-Standard Router-on-a-Stick (RoaS), using a Cisco Catalyst 2960-C Switch for controlled segmentation.
+Mein Netzwerkplan nutzt eine hybride Architektur: Physisch ist das Netzwerk als **erweiterte Stern-Topologie** strukturiert, während es logisch als industriestandardmäßiges **Router-on-a-Stick (RoaS)**-Konzept arbeitet. Zur kontrollierten Segmentierung wird ein Cisco Catalyst 2960-C Switch eingesetzt.
 
-Extended Star Topology: All end devices, including the Hypervisor Host and administrative workstations, are individually connected via dedicated cables to the central switching hub, which is the Cisco Switch. This setup is highly reliable and simplifies physical troubleshooting.
 
-Logically, the network utilizes the Router-on-a-Stick (RoaS) architecture to enforce segmentation via VLANs (1, 30, and 40). This model is built on a single TRUNK link between the Cisco 2960-C Switch (handling Layer 2 segmentation) and the pfSense Firewall (handling Layer 3 routing). This ensures all traffic passing between the VLANs is subjected to strict security policies defined on the pfSense firewall.
+
+### Physischer Aufbau (Erweiterte Stern-Topologie)
+Alle Endgeräte, einschließlich des Hypervisor-Hosts und der Admin-Workstations, sind über dedizierte Kabel direkt mit dem zentralen Switch verbunden. Dieser Aufbau ist hochgradig zuverlässig und vereinfacht die physische Fehlersuche.
+
+### Logische Struktur (Router-on-a-Stick)
+Das Netzwerk nutzt die **Router-on-a-Stick (RoaS)**-Architektur, um die Segmentierung über VLANs (1, 30 und 40) zu erzwingen. Dieses Modell basiert auf einer einzelnen **TRUNK-Verbindung** zwischen dem Cisco 2960-C Switch (zuständig für Layer-2-Segmentierung) und der pfSense-Firewall (zuständig für Layer-3-Routing). Dadurch wird sichergestellt, dass der gesamte Datenverkehr zwischen den VLANs die strengen Sicherheitsrichtlinien der pfSense-Firewall durchlaufen muss.
 
 <img src="images/homelab typology.jpg" alt="Home Lab Typology" width="800"/>
 
-### 1.1. Preparing the Physical Firewall
+### 1.1 Vorbereitung der physischen Firewall
 
-A critical step in setting up the home lab was ensuring the necessary network capacity by creating a dedicated firewall device. A Dell computer was used as the host for pfSense.
+Ein entscheidender Schritt beim Aufbau des Home-Labs war die Sicherstellung der notwendigen Netzwerkkapazität durch die Einrichtung eines dedizierten Firewall-Geräts. Ein Dell-Computer wurde als Host für pfSense verwendet.
 
-#### A) Purchase and Installation of the Multi-Port Network Interface Card (NIC)
+#### A) Kauf und Installation der Multi-Port-Netzwerkkarte (NIC)
 
-The Dell device (or any other device) requires multiple physical ports to effectively manage traffic: one for the **WAN** connection (Internet) and at least one more for the **TRUNK/LAN** connection to the Cisco managed switch (Layer 2).
+Das Dell-Gerät (oder jedes andere dedizierte Gerät) benötigt mehrere physische Ports, um den Datenverkehr effektiv zu verwalten: einen für die **WAN**-Verbindung (Internet) und mindestens einen weiteren für die **TRUNK/LAN**-Verbindung zum verwalteten Cisco-Switch (Layer 2).
 
 <img src="images/1_DEll pc.jpeg" alt="Preparing the Hardware for NIC Mounting" width="600"/> 
 
-For this, a **2-Port Network Interface Card (NIC)** had to be installed in the free PCI-e slot of the Dell device. The goal was to ensure the physical separation of WAN traffic from internal network traffic (LAN/VLAN).
+Dafür musste eine **2-Port-Netzwerkkarte (NIC)** in den freien PCIe-Steckplatz des Dell-Geräts eingebaut werden. Das Ziel war es, die physische Trennung des WAN-Datenverkehrs vom internen Netzwerkverkehr (LAN/VLAN) zu gewährleisten.
 
 <img src="images/2_Nic1.jpeg" alt="NIC" width="335"/>      <img src="images/4_Nic with 2 ports on Dell.jpeg" alt="NIC mounted" width="600"/> 
 
-During work on the computer, I ensured that an anti-static mat and a wrist strap were used to prevent damage to the computer components from static electrical discharge.
+Während der Arbeiten am Computer wurde sichergestellt, dass eine Antistatik-Matte und ein Erdungsarmband verwendet wurden, um Schäden an den Computerkomponenten durch elektrostatische Entladungen (ESD) zu vermeiden.
 
-#### B) Initial Installation and Configuration of pfSense
+#### B) Erstinstallation und Konfiguration von pfSense
 
-After the hardware installation, the pfSense operating system was installed directly onto the hard drive of the Dell device. This required a USB drive (min. 8 GB), Balena Etcher, and the pfSense image. First, I installed it, and then i connect to the pfSense interface from a laptop, removing the keyboard and monitor from the pfSense computer.
+Nach der Hardware-Installation wurde das pfSense-Betriebssystem direkt auf die Festplatte des Dell-Geräts installiert. Hierfür wurden ein USB-Stick (mind. 8 GB), Balena Etcher und das pfSense-Image benötigt. Zuerst führte ich die Installation durch und griff anschließend über einen Laptop auf die pfSense-Benutzeroberfläche zu, woraufhin Tastatur und Monitor vom pfSense-Rechner entfernt wurden.
 
-### 1.2. Preparing the Ethernet Cables
+---
 
-For my plan, I needed additional Ethernet cables for connections. I needed a cable to connect pfSense to the Router, one to connect pfSense to the Switch, and several other Ethernet cables to connect the Switch to the other computers.
+### 1.2. Vorbereitung der Ethernet-Kabel
 
-I bought a long cable, which was cut into parts as needed, and the **RJ45 connectors** were assembled using the appropriate tool. I used the **T568B standard**, which arranges the colors in this order (with the connector tab facing down): 1. White/Orange, 2. Orange, 3. White/Green, 4. Blue, 5. White/Blue, 6. Green, 7. White/Brown, and 8. Brown.
+Für die Umsetzung meines Plans benötigte ich zusätzliche Ethernet-Kabel. Erforderlich waren ein Kabel für die Verbindung von pfSense zum Router, eines für die Verbindung von pfSense zum Switch sowie mehrere weitere Ethernet-Kabel, um den Switch mit den anderen Computern zu verbinden.
+
+Ich habe ein langes Verlegekabel gekauft, das je nach Bedarf zugeschnitten wurde. Die **RJ45-Stecker** wurden mit dem entsprechenden Werkzeug (Crimpzange) montiert. Dabei habe ich den **T568B-Standard** verwendet, bei dem die Adern in folgender Reihenfolge angeordnet sind (mit der Steckernase nach unten): 
+1. Weiß/Orange,
+2. Orange
+3. Weiß/Grün
+4. Blau
+5. Weiß/Blau
+6. Grün
+7. Weiß/Braun
+8.  Braun
 
 <img src="images/5_ethernet cable.jpeg" alt="Preparing ethernet cables" width="700"/>
 
-### 1.3. Segmentation into 3 VLANs
+### 1.3 Segmentierung in 3 VLANs
 
-I configured pfSense and created 2 new VLANs. I left the default VLAN to manage pfSense and the Switch until we create a dedicated Management VLAN, after which we will convert the default VLAN into a **Blackhole VLAN**.
+Ich habe pfSense konfiguriert und zwei neue VLANs erstellt. Das Standard-VLAN (Default) wurde vorerst beibehalten, um pfSense und den Switch zu verwalten, bis ein dediziertes Management-VLAN eingerichtet wird. Danach wird das Standard-VLAN in ein **Blackhole-VLAN** umgewandelt.
 
-Initially, I created 2 VLANs:
+Initial wurden folgende zwei VLANs erstellt:
 
-* **VLAN 30** for the **IT Department** (where we will have servers, Hyper V, databases, etc.).
-* **VLAN 40** for **Employees** (*Mitarbeiter*), where all other employees will be located.
+* **VLAN 30** für die **IT-Abteilung**: Hier werden Server, Hyper-V-Hosts, Datenbanken und andere kritische Dienste betrieben.
+* **VLAN 40** für **Mitarbeiter**: In diesem Segment befinden sich alle regulären Arbeitsplatzrechner der Angestellten.
 
 <img src="images/10_pfsense VLAN.png" alt="pfSense Vlans" width="700"/>
 
-This provides three main benefits:
+Dies bietet drei wesentliche Vorteile:
 
-1.  **Security and Isolation:** VLANs logically segment the network, preventing devices in one group from seeing or communicating directly with devices in another group, unless you specifically allow it with rules in pfSense. If a computer in VLAN 40 is infected with a virus, its spread is limited within that VLAN and cannot easily move to IT devices or the Router.
-2.  **Performance and Traffic Management:** VLANs help reduce the size of the **Broadcast Domain**. This increases efficiency by resulting in less network load for both other employees and the IT department.
-3.  **Organization:** VLANs make our network more organized and easier to manage. We immediately know if an IP belongs to the IT Department or an Employee, which helps us solve problems faster. We can also create specific rules in the Firewall for IT and for the other employees.
+1. **Sicherheit und Isolierung:** VLANs segmentieren das Netzwerk logisch und verhindern, dass Geräte einer Gruppe direkt mit Geräten einer anderen Gruppe kommunizieren können – es sei denn, dies wird explizit durch Regeln in der pfSense erlaubt. Falls ein Computer in VLAN 40 mit einem Virus infiziert wird, bleibt die Ausbreitung auf dieses VLAN beschränkt und kann nicht ohne Weiteres auf IT-Geräte oder den Router übergreifen.
+2. **Performance und Traffic-Management:** VLANs tragen dazu bei, die Größe der **Broadcast-Domain** zu reduzieren. Dies steigert die Effizienz, da die Netzwerklast sowohl für die regulären Mitarbeiter als auch für die IT-Abteilung verringert wird.
+3. **Organisation:** VLANs machen unser Netzwerk übersichtlicher und einfacher zu verwalten. Wir wissen sofort, ob eine IP-Adresse zur IT-Abteilung oder zu einem Mitarbeiter gehört, was die Fehlerbehebung beschleunigt. Zudem können wir spezifische Firewall-Regeln getrennt für die IT und die restlichen Mitarbeiter erstellen.
 
-I performed the necessary configurations in pfSense and create the 2 VLANs, activating the **DHCP server** on pfSense for these VLANs.  Computers will then receive IP addresses from these networks.
+Ich habe die notwendigen Konfigurationen in pfSense vorgenommen, die beiden VLANs erstellt und den **DHCP-Server** auf der pfSense für diese Segmente aktiviert. Dadurch erhalten die Computer automatisch IP-Adressen aus den jeweiligen Netzwerken.
 
-I tested **ping**, but it did not work without making the necessary changes in the Firewall. 
+Beim anschließenden Testen der Verbindung mittels **Ping** stellte ich fest, dass dieser erwartungsgemäß nicht funktionierte, solange keine entsprechenden Anpassungen in den Firewall-Regeln vorgenommen wurden.
 
 <img src="images/new regel firewall.png" alt="New Firewall rule" width="700"/>
 
@@ -109,155 +120,141 @@ After creating a new rule in the firewall and activating **File and Printer Shar
 
 <img src="images/12_Ping von von 10 to 11 in VLAN 30.png" alt="ping test" width="500"/>
 
-### 1.4. Switch Configuration
+### 1.4. Konfiguration des Switches
 
-While performing the necessary configurations in pfSense, I do the same on the Switch. I connect the Switch to the laptop with a **console cable**, where the necessary configurations are carried out in **MobaXterm**.
+Parallel zu den notwendigen Konfigurationen in pfSense wurden die entsprechenden Einstellungen am Switch vorgenommen. Dazu habe ich den Switch über ein **Konsolenkabel** mit dem Laptop verbunden und die Konfiguration in **MobaXterm** durchgeführt.
 
 <img src="images/11_show vlan brief.jpg" alt="Show vlan brief in Cisco Switch connected to MobaXterm" width="500"/>
 
-### 1.5. Port Tagging
+### 1.5. Port-Tagging und Interface-Zuweisung
 
-We have 2 ports on pfSense: 1 for WAN, which we connect to the main router, and 1 to connect to the **TRUNK** port of the Switch.
+Auf der pfSense wurden zwei physische Ports konfiguriert: Ein Port für das **WAN**, welches mit dem Hauptrouter verbunden ist, und ein Port für die Verbindung zum **TRUNK**-Port des Switches.
 
-These two ports are tagged as follows:
+Diese beiden Ports sind wie folgt zugewiesen:
 
-| pfSense Port | Role |
-| :--- | :--- |
-| **WAN** | pfSense: WAN |
-| **LAN/TRUNK** | pfSense: LAN (Trunk Interface) |
+| pfSense Port | Rolle | Beschreibung |
+| :--- | :--- | :--- |
+| **WAN** | pfSense: WAN | Verbindung zum Internet / Hauptrouter |
+| **LAN/TRUNK** | pfSense: LAN (Trunk-Interface) | Verbindung zum Cisco-Switch für VLAN-Tagging (802.1Q) |
 
 <img src="images/6_pfsense tagging.jpeg" alt="pfSENSE tagging" width="500"/>
 
-On the Switch, we have ports which we tag as follows:
+Auf dem Switch wurden die Ports wie folgt konfiguriert und getaggt:
 
-| Switch Port | Role | Configuration | Tagging Notes |
+| Switch-Port | Rolle | Konfiguration | Tagging-Hinweise |
 | :--- | :--- | :--- | :--- |
-| **Gi0/1 (TRUNK)** | Trunk Port (Connects to pfSense LAN/TRUNK) | "Switchport mode Trunk" | SW: Gi0/1 (Trunk) - Pfsense: LAN-IF |
+| **Gi0/1 (TRUNK)** | Trunk-Port (Verbindung zu pfSense LAN/TRUNK) | `switchport mode trunk` | SW: Gi0/1 (Trunk) – pfSense: LAN-IF |
 
 <img src="images/8_switch tagging 2.jpeg" alt="Switch tagging" width="500"/>
 
-We also tag the other ports as follows:
+Zusätzlich wurden die weiteren Ports wie folgt konfiguriert:
 
-| Switch Port(s) | Role | Configuration | Tagging Notes |
+| Switch-Port(s) | Rolle | Konfiguration | Tagging-Hinweise |
 | :--- | :--- | :--- | :--- |
-| **Fa 0/1** | IT Admin - Hyper V Host (VLAN 30) | Access Port for VLAN 30 | SW: Fa 0/1 (V30) - Pc – IT - 01 |
-| **Fa 0/2** | IT Department (VLAN 30) | Access Port for VLAN 30 | SW: Fa 0/2 (V30) - Pc – IT - 02 |
-| **Fa 0/3** | Client C (VLAN 40) | Access Port for VLAN 40 | SW: Fa 0/3 (V40) - Pc – IT - 05 |
-| **Fa 0/4** | Client D (VLAN 40) | Access Port for VLAN 40 | SW: Fa 0/4 (V40) - Pc – IT - 06 |
-| **Fa 0/5** | Printer | Access Port for VLAN 1 | SW: Fa 0/5 (V1) - Printer HP |
+| **Fa 0/1** | IT Admin - Hyper-V Host (VLAN 30) | Access-Port für VLAN 30 | SW: Fa 0/1 (V30) – PC-IT-01 |
+| **Fa 0/2** | IT-Abteilung (VLAN 30) | Access-Port für VLAN 30 | SW: Fa 0/2 (V30) – PC-IT-02 |
+| **Fa 0/3** | Client C (VLAN 40) | Access-Port für VLAN 40 | SW: Fa 0/3 (V40) – PC-IT-05 |
+| **Fa 0/4** | Client D (VLAN 40) | Access-Port für VLAN 40 | SW: Fa 0/4 (V40) – PC-IT-06 |
+| **Fa 0/5** | Drucker | Access-Port für VLAN 1 | SW: Fa 0/5 (V1) – Drucker HP |
 
-If we want to connect, let us say 4 computers to Port 1, and 3 computers to Port 2, we can do this by using unmanaged switches connected to these access ports.
+Falls beispielsweise 4 Computer an Port 1 und 3 Computer an Port 2 angeschlossen werden sollen, kann dies durch den Einsatz von **Unmanaged Switches** erfolgen, die mit diesen Access-Ports verbunden werden.
 
-## Phase 2: Windows Server Environment Setup in Remotelab (Hyper-V)
+---
 
-Here I detail the plan to set up an environment of **five (5) Virtual Machines (VMs)** inside a single host VM created in my Remotelab. The goal was to test and compare different methods of deploying virtual machines.
+## Phase 2: Aufbau der Windows Server-Umgebung im Remotelab (Hyper-V)
 
-### 2.1. Initial Setup and Nested Virtualization Attempt
+In dieser Phase beschreibe ich die Einrichtung einer Umgebung mit **fünf (5) virtuellen Maschinen (VMs)** innerhalb einer einzigen Host-VM in meinem Remotelab. Ziel war es, verschiedene Methoden zur Bereitstellung virtueller Maschinen zu testen und zu vergleichen.
 
-As the first step, I created a Virtual Machine in the Remotelab environment named **VMHOSTFP1988**.
+### 2.1. Erstmalige Einrichtung und Nested Virtualization
 
-* I then configured this VM to run **Nested Virtualization** using a PowerShell command, turning it into a Hyper-V host itself (the **Hypervisor**).
-* Inside **VMHOSTFP1988**, I created five different Virtual Machines (my workload VMs) using three distinct methods:
-    * **Method 1: Hyper-V Manager**
-        * Created a **second-generation** VM named **FP_DC**.
-        * Used the Windows Server 2022 ISO image.
-        * Connected it to a **Private virtual switch** to ensure communication only within the Remotelab environment.
+Als ersten Schritt habe ich im Remotelab eine virtuelle Maschine mit dem Namen **VMHOSTFP1988** erstellt.
 
+* Diese VM wurde mittels eines PowerShell-Befehls für **Nested Virtualization** konfiguriert, wodurch sie selbst zum Hyper-V-Host (**Hypervisor**) wurde.
+* Innerhalb von **VMHOSTFP1988** habe ich fünf verschiedene virtuelle Maschinen (Workload-VMs) unter Verwendung von drei unterschiedlichen Methoden erstellt:
+    * **Methode 1: Hyper-V Manager**
+        * Erstellung einer VM der **2. Generation** mit dem Namen **FP_DC**.
+        * Verwendung des Windows Server 2022 ISO-Images.
+        * Anbindung an einen **privaten virtuellen Switch**, um die Kommunikation ausschließlich innerhalb der Remotelab-Umgebung zu gewährleisten.
+          
 <img src="images/FPDC nga Hyper v.png" alt="FPDC setup from Hyper V" width="700"/>
 
       
-  **Method 2: Windows Admin Center (WAC)**
-        * Arranged the creation of a new VM named **FPServer1**.
+* **Methode 2: Windows Admin Center (WAC)**
+        * Erstellung einer neuen VM mit dem Namen **FPServer1**. Das Windows Admin Center wurde hierbei als moderne, webbasierte Oberfläche zur zentralen Verwaltung des Hyper-V-Hosts genutzt.
 
   <img src="images/FPserver1 from Windows Admin Center.png" alt="FPserver1 setup from Windows Admin Center" width="500"/>
         
-  **Method 3: PowerShell Scripting**
-        * Used a PowerShell command to create a VM named **FPServer2**, specifying the hard disk location, name, and ISO image path.
+* **Methode 3: PowerShell-Scripting**
+        * Verwendung eines PowerShell-Befehls zur Erstellung einer VM mit dem Namen **FPServer2**. Dabei wurden Parameter wie der Speicherort der Festplatte, der VM-Name und der Pfad zum ISO-Image direkt im Skript spezifiziert.
 
   <img src="images/FPserver2 from Powershell.png" alt="FPServer2 setup from Powershell" width="700"/>
 
-### 2.2. Problem Identified: Deep Nested Virtualization
+### 2.2. Identifiziertes Problem: Deep Nested Virtualization (Tiefe Schachtelung)
 
-The setup initially appeared correct in both the Windows Admin Center and Hyper-V Manager. 
+Das Setup schien anfangs sowohl im Windows Admin Center als auch im Hyper-V Manager korrekt konfiguriert zu sein.
 
 <img src="images/Windows admin center.png" alt="Windows Admin Center" width="700"/>
 
 <img src="images/Hyper V.png" alt="Hyper V" width="700"/>
 
-However, **unexpected interruptions occurred**, and the root cause was identified as the use of **Level 4 Nested Virtualization**:
+Es traten jedoch **unerwartete Unterbrechungen** auf. Als Ursache wurde die Verwendung von **Nested Virtualization auf Ebene 4 (Level 4)** identifiziert:
 
-* **Level 1:** Physical Host
-* **Level 2:** Intermediate Hypervisor (**WIN-ILAOICTCTN9N**)
-* **Level 3:** Nested Hypervisor (**VMHostFP1988**)
-* **Level 4:** Workload VMs (FP_DC, FPServer1, etc.)
+* **Ebene 1:** Physischer Host
+* **Ebene 2:** Zwischengeschalteter Hypervisor (**WIN-ILAOICTCTN9N**)
+* **Ebene 3:** Verschachtelter (Nested) Hypervisor (**VMHostFP1988**)
+* **Ebene 4:** Workload-VMs (FP_DC, FPServer1, etc.)
 
-**Hyper-V does not officially support or guarantee functionality beyond two levels of nesting.** The CPU virtualization extensions fail to pass through to the deepest level, causing the VM failures.
+**Hyper-V unterstützt oder garantiert offiziell keine Funktionalität über zwei Verschachtelungsebenen hinaus.** Die CPU-Virtualisierungserweiterungen werden nicht bis zur tiefsten Ebene durchgereicht, was zu den Ausfällen der VMs führte.
 
-### 2.3. Confirmed Solution
 
-To resolve the issue and flatten the lab environment, the following action is required:
 
-* **Delete VMHOSTFP1988 (Level 3)**.
-* **Create all Workload VMs (FP_DC, FPServer1, FPServer2, etc.) directly inside the WIN-ILAOICTCTN9N VM (Level 2).**
+### 2.3. Bestätigte Lösung
 
-This configuration reduces the nesting to a supported three levels total (Level 1 → Level 2 → Level 3).
+Um das Problem zu beheben und die Lab-Umgebung flacher zu gestalten ("Flattening"), wurde folgende Maßnahme ergriffen:
+
+* **Löschung von VMHOSTFP1988 (Ebene 3).**
+* **Erstellung aller Workload-VMs (FP_DC, FPServer1, FPServer2, etc.) direkt innerhalb der VM WIN-ILAOICTCTN9N (Ebene 2).**
+
+Durch diese Konfiguration wird die Verschachtelung auf insgesamt drei unterstützte Ebenen reduziert (Ebene 1 → Ebene 2 → Ebene 3), was einen stabilen Betrieb ermöglicht.
 
 <img src="images/serverat ne Hyper V win.png" alt="Servers in hyper V" width="700"/>
 
-## 2.4. Environment Verification
+## 2.4. Überprüfung der Umgebung (Environment Verification)
 
-Following the successful implementation of the solution (reducing the nesting level), the core functionality of the virtual network was verified.
+Nach der erfolgreichen Umsetzung der Lösung (Reduzierung der Verschachtelungstiefe) wurde die Kernfunktionalität des virtuellen Netzwerks überprüft.
 
-* **Network Connectivity Test:** Connectivity between the virtual machines was successfully tested using the **ping** utility.
-* **Firewall Configuration:** Appropriate changes were made to the software firewall settings on the VMs to allow for successful communication and testing.
+* **Netzwerkkonnektivitätstest:** Die Verbindung zwischen den virtuellen Maschinen wurde erfolgreich mit dem Dienstprogramm **ping** getestet.
+* **Firewall-Konfiguration:** An den Software-Firewall-Einstellungen der VMs wurden entsprechende Änderungen vorgenommen, um eine reibungslose Kommunikation und Tests zu ermöglichen.
 
-This confirms that the new, supported nesting level allows for proper virtual machine operation and inter-VM communication within the Remotelab environment.
-
-
-# Phase 3 Plan: Integrated Virtual Training Network (Hyper-V)
-
-Here I plan to integrate a virtual environment into my existing physical Home Lab, serving as a comprehensive platform for practicing **efficient deployment**, **OS management (Dual Boot)**, **network configuration**, and **traffic analysis (Monitoring)**.
-
-My Primary Objectives are:
-* **Integration:** Seamlessly connect the Hyper-V network to the physical **VLAN 30** subnet via the host's NIC and the pfSense gateway.
-* **Efficiency:** Validate the use of a **Master Windows Base Hard Disk (VHDX)** and **Differencing Disks** for rapid, space-saving deployment of multiple target systems.
-* **Skill Development:** Create a versatile training network featuring a **Kali Linux monitoring station** and **Windows Target VMs** configured for **Dual Boot** practice.
-
-The entire virtual subnet will reside logically within my physical VLAN 30 boundary, utilizing the existing pfSense Layer 3 routing capabilities.
+Dies bestätigt, dass die neue, unterstützte Verschachtelungsebene einen ordnungsgemäßen Betrieb der virtuellen Maschinen und die Kommunikation zwischen den VMs innerhalb der Remotelab-Umgebung ermöglicht.
 
 ---
 
-## Network Architecture Summary (VLAN 30 Subnet)
+# Phase 3 Plan: Integriertes virtuelles Trainingsnetzwerk (Hyper-V)
 
-| Component | Function / Practice Area | Connection Point | IP Scheme |
+In dieser Phase plane ich die Integration einer virtuellen Umgebung in mein bestehendes physisches Home-Lab. Diese dient als umfassende Plattform zum Üben von **effizientem Deployment**, **Betriebssystem-Management (Dual-Boot)**, **Netzwerkkonfiguration** und **Datenverkehrsanalyse (Monitoring)**.
+
+[Image of Integrated Hyper-V and physical network architecture diagram]
+
+### Meine Hauptziele:
+* **Integration:** Nahtlose Anbindung des Hyper-V-Netzwerks an das physische **VLAN 30**-Subnetz über die Netzwerkkarte (NIC) des Hosts und das pfSense-Gateway.
+* **Effizienz:** Validierung der Nutzung einer **Master-Windows-Basis-Festplatte (VHDX)** und **Differenzierenden Festplatten (Differencing Disks)** für ein schnelles und platzsparendes Deployment mehrerer Zielsysteme.
+* **Kompetenzentwicklung:** Aufbau eines vielseitigen Trainingsnetzwerks mit einer **Kali Linux Monitoring-Station** und **Windows-Ziel-VMs**, die für **Dual-Boot**-Übungen konfiguriert sind.
+
+Das gesamte virtuelle Subnetz wird logisch innerhalb der Grenzen meines physischen VLAN 30 angesiedelt sein und die bestehenden Layer-3-Routing-Fähigkeiten der pfSense nutzen.
+
+---
+
+## Zusammenfassung der Netzwerkarchitektur (VLAN 30 Subnetz)
+
+| Komponente | Funktion / Übungsbereich | Verbindungspunkt | IP-Schema |
 | :--- | :--- | :--- | :--- |
-| **Virtual Switch** | External Switch (`VLAN30_Bridge`) | Physical NIC (VLAN 30 Access Port) | N/A |
-| **Gateway / Firewall** | pfSense (Physical) | Cisco Switch (Trunk Port) | **192.168.30.1** |
-| **Training VM 1** | Kali Linux / Monitoring & Analysis | `VLAN30_Bridge` | **192.168.30.10** |
-| **Training VMs (x3)** | Windows/Linux / Dual Boot & Base Disk Practice | `VLAN30_Bridge` | **192.168.30.20-22** |
-
----
-
-## Kali Linux VM Configuration
-
-This Virtual Machine serves as the dedicated monitoring and analysis station within the integrated training network.
-
-| Setting | Configuration | Rationale |
-| :--- | :--- | :--- |
-| **Operating System** | Kali Linux | Platform for network analysis (Wireshark) and security tooling. |
-| **Virtual Switch** | **External Switch** (`VLAN30_Bridge`) | Allows the VM to communicate directly with the physical **VLAN 30** subnet via pfSense. |
-| **RAM** | **2048 MB (2 GB)** | Sufficient for running the base OS and Wireshark for analysis. |
-| **Virtual Processors** | **2 Cores** | Provides adequate processing power for concurrent network capture and tool usage. |
-| **IP Address** | **Static: 192.168.30.10** | Ensures the monitor is always accessible and correctly routed by pfSense. |
-
----
-
-**Status Update:** The Kali Linux VM is now successfully provisioned with the specified resources...
+| **Virtueller Switch** | Externer Switch (`VLAN30_Bridge`) | Physische NIC (VLAN 30
 
 <img src="images/Kali.jpg" alt="Kali Linux" width="700"/>
 
 ---
 
-**Work in Progress...**
+**In Bearbeitung / Work in Progress...**
 
 
