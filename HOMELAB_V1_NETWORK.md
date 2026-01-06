@@ -1,4 +1,4 @@
-# FATJON PRRONI | IT Specialist for System Integration (Umschulung)
+# FATJON PRRONI | Fachinformatiker für Systemintegration (FISI) - (Umschulung)
 
 Tel: +4915209017791 | Email: fatjonprroni@gmail.com
 
