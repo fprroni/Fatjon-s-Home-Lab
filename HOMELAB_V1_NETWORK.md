@@ -223,7 +223,7 @@ Es traten jedoch **unerwartete Unterbrechungen** auf. Als Ursache wurde die Verw
 Um das Problem zu beheben und die Lab-Umgebung flacher zu gestalten ("Flattening"), wurde folgende Maßnahme ergriffen:
 
 * **Löschung von VMHOSTFP1988 (Ebene 3).**
-* **Erstellung aller Workload-VMs (FP_DC, FPServer1, FPServer2, etc.) direkt innerhalb der VM WIN-ILAOICTCTN9N (Ebene 2).**
+* **Erstellung aller Workload-VMs (FP_DC, FPServer1, FPServer2, etc.) direkt innerhalb der VM WIN-NR7DVMJLH51 (Ebene 2).**
 
 Durch diese Konfiguration wird die Verschachtelung auf insgesamt drei unterstützte Ebenen reduziert (Ebene 1 → Ebene 2 → Ebene 3), was einen stabilen Betrieb ermöglicht.
 
