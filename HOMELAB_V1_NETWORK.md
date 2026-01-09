@@ -227,7 +227,7 @@ Um das Problem zu beheben und die Lab-Umgebung flacher zu gestalten ("Flattening
 
 Durch diese Konfiguration wird die Verschachtelung auf insgesamt drei unterstützte Ebenen reduziert (Ebene 1 → Ebene 2 → Ebene 3), was einen stabilen Betrieb ermöglicht.
 
-<img src="images/HL0.png" alt="Hyper V" width="700"/>
+<img src="images/homelab0.png" alt="Hyper V" width="700"/>
 
 ## 2.4. Überprüfung der Umgebung (Environment Verification)
 
@@ -253,37 +253,44 @@ Alle Maschinen wurden statisch konfiguriert, um eine stabile Auflösung innerhal
 | **FP_Serv1** | Windows Server | 192.168.30.251 | Member Server (DHCP/DNS) |
 | **FP_Serv2** | Windows Server | 192.168.30.252 | Member Server |
 | **FP_Serv3** | Windows Server | 192.168.30.253 | Member Server |
-| **FP_Win11** | Windows 11 | 192.168.30.54 | Client Workstation |
+| **FP_Win11** | Windows 11 | DHCP | Client Workstation |
 
 ### 2. Rollen und Features (AD DS Installation)
 * **Installation**: Auf dem **FP_DC** wurden die **Active Directory-Domänendienste** installiert.
 * **Stammdomäne**: Erstellung eines neuen Forests mit dem Namen **fphomelab.local**.
   
-<img src="images/hl1.jpg" alt="Hyper V" width="700"/>
+<img src="images/homelab1.png" alt="Hyper V" width="700"/>
 
 * **DNS**: Die DNS-Rolle wurde automatisch als AD-integrierte Instanz mitinstalliert.
 * **Domänenbeitritt**: Der Server **FP_Serv1** wurde erfolgreich der Domäne hinzugefügt.
 
-<img src="images/hl2.jpg" alt="Hyper V" width="700"/>
+<img src="images/homelab2.png" alt="Hyper V" width="700"/>
 
-* **Zentralisierung**: Verbindung von Serv-1 mit dem **Server-Manager** des DC, um Remotearbeiten direkt vom Domain Controller aus zu ermöglichen.
+* **Zentralisierung**: Verbindung von FP_Serv1 mit dem **Server-Manager** des DC, um Remotearbeiten direkt vom Domain Controller aus zu ermöglichen.
 
-<img src="images/hl3.jpg" alt="Hyper V" width="700"/>
+<img src="images/homelab3.png" alt="Hyper V" width="700"/>
 
 ### 3. Identitätsmanagement (OU & Global Catalogue)
 * **Organisationseinheiten (OU)**: Erstellung einer spezifischen OU für den Standort **Stuttgart**.
 * **Global Catalogue**: Konfiguration zur Optimierung der standortübergreifenden Objektsuche.
 * **Gruppenrichtlinien (GPO)**: Arbeit an den Richtlinien zur Steuerung von Benutzerrechten und Sicherheitskonfigurationen.
 
+  <img src="images/Homelab4.png" alt="Hyper V" width="700"/>
+
 ### 4. DHCP-Server Bereitstellung
 * **FP_DC**: Installation und Konfiguration des DHCP-Servers über die **GUI**.
-* **Svr1**: Installation des DHCP-Dienstes via **Remote PowerShell** vom DC aus:
+* **FP_Serv1**: Installation des DHCP-Dienstes via **Remote PowerShell** vom DC aus:
   `Install-WindowsFeature DHCP -IncludeManagementTools`
+
+    <img src="images/homelab5.png" alt="Hyper V" width="700"/>
 * **DHCP Scope**: Erstellung und Konfiguration des Adressbereichs (Scopes) zur dynamischen IP-Vergabe.
+
+    <img src="images/homelab6.png" alt="Hyper V" width="700"/>
+    
 * **Autorisierung**: Erfolgreiche Autorisierung der DHCP-Server im Active Directory.
 
 ### 5. DNS-Dienste und Redundanz
-* **Installation auf Svr1**: Ergänzende Installation der DNS-Rolle mittels PowerShell:
+* **Installation auf FP_Serv1**: Ergänzende Installation der DNS-Rolle mittels PowerShell:
   `Install-WindowsFeature DNS -IncludeManagementTools`
 * **DNS-Typen**: Evaluierung von Primary, Secondary und **Active Directory-integrated DNS** für optimale Namensauflösung in verschiedenen Lokationen.
 
@@ -293,12 +300,17 @@ Alle Maschinen wurden statisch konfiguriert, um eine stabile Auflösung innerhal
 * **FSRM (File Server Resource Manager)**: Installation auf dem DC.
 * **Kontingente**: Erstellung von **Quotas**, um die Erstellung von Ordnern mit einer Größe von mehr als **25 GB** zu verhindern.
 
-### Next... Monitoring, Wireshark und Migration
+   <img src="images/homelab7.png" alt="Hyper V" width="700"/>
+
+### Nächste Schritte: Monitoring, Wireshark und Infrastruktur
 Laufende Aktivitäten und zukünftige Erweiterungen:
-* **Performance Monitoring**: Überwachung der Systemauslastung der 5 VMs.
-* **Wireshark**: Analyse des Netzwerkverkehrs zur Fehlerdiagnose.
-* **Kali Linux**: Integration für Sicherheitstests innerhalb der Domäneninfrastruktur.
-* **Migration**: Vorbereitung von Szenarien zur Migration von Daten und Rollen.
+
+* **Performance Monitoring**: Kontinuierliche Überwachung der Systemauslastung (CPU, RAM, Disk) der VMs.
+* **Wireshark**: Analyse des Netzwerkverkehrs zur Fehlerdiagnose und Protokollvalidierung.
+* **SAN Storage Integration**: Konfiguration von Shared Storage (iSCSI) zur Vorbereitung von Hochverfügbarkeitsszenarien.
+* **Migration**: Vorbereitung und Durchführung von Migrationen für Daten, FSMO-Rollen und Dienste zwischen Member-Servern.
+* **Backup & Recovery**: Planung und Test von Desaster-Recovery-Szenarien zur Sicherstellung der Business Continuity.
+* **Kali Linux**: Integration in die Infrastruktur für Sicherheitsanalysen und Penetration Testing.
 
 **In Bearbeitung / Work in Progress...**
 
