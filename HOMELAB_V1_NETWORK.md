@@ -240,6 +240,58 @@ Dies bestätigt, dass die neue, unterstützte Verschachtelungsebene einen ordnun
 
 ---
 
+## Phase 3: Aufbau und Konfiguration der Active Directory Infrastruktur
+
+In dieser Phase wurden die 7 Kernpunkte der Server-Infrastruktur im Remote-Lab umgesetzt, um eine vollständige Unternehmensumgebung zu simulieren.
+
+### 1. Netzwerk-Setup (IP-Adressierung)
+Alle Maschinen wurden statisch konfiguriert, um eine stabile Auflösung innerhalb der Domäne zu gewährleisten.
+
+| Hostname | Betriebssystem | IP-Adresse | Rolle |
+| :--- | :--- | :--- | :--- |
+| **FP_DC** | Windows Server | 192.168.30.250 | Primary Domain Controller |
+| **FP_Serv1** | Windows Server | 192.168.30.251 | Member Server (DHCP/DNS) |
+| **FP_Serv2** | Windows Server | 192.168.30.252 | Member Server |
+| **FP_Serv3** | Windows Server | 192.168.30.253 | Member Server |
+| **FP_Win11** | Windows 11 | 192.168.30.54 | Client Workstation |
+
+### 2. Rollen und Features (AD DS Installation)
+* **Installation**: Auf dem **FP_DC** wurden die **Active Directory-Domänendienste** installiert.
+* **Stammdomäne**: Erstellung eines neuen Forests mit dem Namen **fphomelab.local**.
+* **DNS**: Die DNS-Rolle wurde automatisch als AD-integrierte Instanz mitinstalliert.
+* **Domänenbeitritt**: Der Server **FP_Serv1** wurde erfolgreich der Domäne hinzugefügt.
+* **Zentralisierung**: Verbindung von Serv-1 mit dem **Server-Manager** des DC, um Remotearbeiten direkt vom Domain Controller aus zu ermöglichen.
+
+### 3. Identitätsmanagement (OU & Global Catalogue)
+* **Organisationseinheiten (OU)**: Erstellung einer spezifischen OU für den Standort **Stuttgart**.
+* **Global Catalogue**: Konfiguration zur Optimierung der standortübergreifenden Objektsuche.
+* **Gruppenrichtlinien (GPO)**: Arbeit an den Richtlinien zur Steuerung von Benutzerrechten und Sicherheitskonfigurationen.
+
+### 4. DHCP-Server Bereitstellung
+* **FP_DC**: Installation und Konfiguration des DHCP-Servers über die **GUI**.
+* **Svr1**: Installation des DHCP-Dienstes via **Remote PowerShell** vom DC aus:
+  `Install-WindowsFeature DHCP -IncludeManagementTools`
+* **DHCP Scope**: Erstellung und Konfiguration des Adressbereichs (Scopes) zur dynamischen IP-Vergabe.
+* **Autorisierung**: Erfolgreiche Autorisierung der DHCP-Server im Active Directory.
+
+### 5. DNS-Dienste und Redundanz
+* **Installation auf Svr1**: Ergänzende Installation der DNS-Rolle mittels PowerShell:
+  `Install-WindowsFeature DNS -IncludeManagementTools`
+* **DNS-Typen**: Evaluierung von Primary, Secondary und **Active Directory-integrated DNS** für optimale Namensauflösung in verschiedenen Lokationen.
+
+### 6. Dateiserver-Management & FSRM
+* **Dateifreigabe**: Testen verschiedener Freigabemethoden für OUs.
+* **Berechtigungen**: Vergabe von NTFS-Rechten (Lesen, Modifizieren) sowie Anwendung von **Deny-Regeln**.
+* **FSRM (File Server Resource Manager)**: Installation auf dem DC.
+* **Kontingente**: Erstellung von **Quotas**, um die Erstellung von Ordnern mit einer Größe von mehr als **25 GB** zu verhindern.
+
+### Next... Monitoring, Wireshark und Migration
+Laufende Aktivitäten und zukünftige Erweiterungen:
+* **Performance Monitoring**: Überwachung der Systemauslastung der 5 VMs.
+* **Wireshark**: Analyse des Netzwerkverkehrs zur Fehlerdiagnose.
+* **Kali Linux**: Integration für Sicherheitstests innerhalb der Domäneninfrastruktur.
+* **Migration**: Vorbereitung von Szenarien zur Migration von Daten und Rollen.
+
 **In Bearbeitung / Work in Progress...**
 
 
