@@ -227,7 +227,7 @@ Um das Problem zu beheben und die Lab-Umgebung flacher zu gestalten ("Flattening
 
 Durch diese Konfiguration wird die Verschachtelung auf insgesamt drei unterstützte Ebenen reduziert (Ebene 1 → Ebene 2 → Ebene 3), was einen stabilen Betrieb ermöglicht.
 
-<img src="images/serverat ne Hyper V win.png" alt="Servers in hyper V" width="700"/>
+<img src="images/HL0.png" alt="Hyper V" width="700"/>
 
 ## 2.4. Überprüfung der Umgebung (Environment Verification)
 
@@ -258,9 +258,17 @@ Alle Maschinen wurden statisch konfiguriert, um eine stabile Auflösung innerhal
 ### 2. Rollen und Features (AD DS Installation)
 * **Installation**: Auf dem **FP_DC** wurden die **Active Directory-Domänendienste** installiert.
 * **Stammdomäne**: Erstellung eines neuen Forests mit dem Namen **fphomelab.local**.
+  
+<img src="images/hl1.jpg" alt="Hyper V" width="700"/>
+
 * **DNS**: Die DNS-Rolle wurde automatisch als AD-integrierte Instanz mitinstalliert.
 * **Domänenbeitritt**: Der Server **FP_Serv1** wurde erfolgreich der Domäne hinzugefügt.
+
+<img src="images/hl2.jpg" alt="Hyper V" width="700"/>
+
 * **Zentralisierung**: Verbindung von Serv-1 mit dem **Server-Manager** des DC, um Remotearbeiten direkt vom Domain Controller aus zu ermöglichen.
+
+<img src="images/hl3.jpg" alt="Hyper V" width="700"/>
 
 ### 3. Identitätsmanagement (OU & Global Catalogue)
 * **Organisationseinheiten (OU)**: Erstellung einer spezifischen OU für den Standort **Stuttgart**.
