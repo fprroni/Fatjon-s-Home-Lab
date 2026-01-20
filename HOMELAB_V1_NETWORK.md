@@ -302,14 +302,39 @@ Alle Maschinen wurden statisch konfiguriert, um eine stabile Auflösung innerhal
 
    <img src="images/homelab7.png" alt="Hyper V" width="700"/>
 
+
+## Phase 4: Speichermanagement und Datensicherheit
+
+### 4.1. RAID 5 Implementierung und Redundanztest
+Als Teil des Projekts habe ich ein **RAID 5-Verbund** konfiguriert, um die Datenredundanz und Fehlertoleranz innerhalb der Windows Server 2022 Umgebung zu erhöhen.
+
+* **Hardware-Konfiguration:** Einbindung von drei zusätzlichen virtuellen Festplatten und Erstellung eines RAID 5-Volumes (Volume E:).
+* **Belastungstest der Ausfallsicherheit:**
+    * **Test 1:** Eine Festplatte wurde manuell offline geschaltet. Das System blieb stabil, und der Zugriff auf die Daten in Volume E: war weiterhin ohne Unterbrechung möglich.
+    * **Test 2:** Nach dem Deaktivieren einer zweiten Festplatte fiel das Volume erwartungsgemäß aus und wurde nicht mehr im System angezeigt.
+* [cite_start]**Ergebnis:** Der Test bestätigt erfolgreich die Funktionsweise von RAID 5, welches den Ausfall genau einer Festplatte kompensieren kann[cite: 5].
+
+<img src="images/Raid 5.png" alt="Hyper V" width="700"/>
+
+---
+
+### 4.2. Datensicherung (Windows Server Backup)
+Eine der kritischsten Aufgaben eines Fachinformatikers für Systemintegration ist die Implementierung einer soliden Backup-Strategie.
+
+* **Implementierung:** Installation und Konfiguration des Features **Windows Server Backup** zur Sicherung des Systemzustands (System State) und der Active Directory Datenbank.
+* **Sicherungszeitpläne:** Einrichtung automatisierter Backups in festgelegten Intervallen, um die Business Continuity im Falle eines logischen Fehlers oder Systemabsturzes zu gewährleisten.
+* [cite_start]**Zielsetzung:** Simulation eines professionellen Disaster-Recovery-Szenarios[cite: 5].
+
+<img src="images/sicherung.png" alt="Hyper V" width="700"/>
+
+---
+
 ### Nächste Schritte: Monitoring, Wireshark und Infrastruktur
 Laufende Aktivitäten und zukünftige Erweiterungen:
 
 * **Performance Monitoring**: Kontinuierliche Überwachung der Systemauslastung (CPU, RAM, Disk) der VMs.
 * **Wireshark**: Analyse des Netzwerkverkehrs zur Fehlerdiagnose und Protokollvalidierung.
-* **SAN Storage Integration**: Konfiguration von Shared Storage (iSCSI) zur Vorbereitung von Hochverfügbarkeitsszenarien.
 * **Migration**: Vorbereitung und Durchführung von Migrationen für Daten, FSMO-Rollen und Dienste zwischen Member-Servern.
-* **Backup & Recovery**: Planung und Test von Desaster-Recovery-Szenarien zur Sicherstellung der Business Continuity.
 * **Kali Linux**: Integration in die Infrastruktur für Sicherheitsanalysen und Penetration Testing.
 
 **In Bearbeitung / Work in Progress...**
