@@ -334,7 +334,6 @@ Laufende Aktivitäten und zukünftige Erweiterungen:
 
 * **Performance Monitoring**: Kontinuierliche Überwachung der Systemauslastung (CPU, RAM, Disk) der VMs.
 * **Wireshark**: Analyse des Netzwerkverkehrs zur Fehlerdiagnose und Protokollvalidierung.
-* **Migration**: Vorbereitung und Durchführung von Migrationen für Daten, FSMO-Rollen und Dienste zwischen Member-Servern.
 * **Kali Linux**: Integration in die Infrastruktur für Sicherheitsanalysen und Penetration Testing.
 
 **In Bearbeitung / Work in Progress...**
