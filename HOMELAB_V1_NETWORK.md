@@ -310,9 +310,9 @@ Als Teil des Projekts habe ich ein **RAID 5-Verbund** konfiguriert, um die Daten
 
 * **Hardware-Konfiguration:** Einbindung von drei zusätzlichen virtuellen Festplatten und Erstellung eines RAID 5-Volumes (Volume E:).
 * **Belastungstest der Ausfallsicherheit:**
-    * **Test 1:** Eine Festplatte wurde manuell offline geschaltet. Das System blieb stabil, und der Zugriff auf die Daten in Volume E: war weiterhin ohne Unterbrechung möglich.
+    * **Test 1:** Eine Festplatte wurde manuell offline geschaltet. Das System blieb stabil, und der Zugriff auf die Daten in Volume E: war weiterhin ohne Unterbrechung möglich. Nach Test 1 wurde das RAID erfolgreich rebuildet (Wiederhergestellt), bevor Test 2 durchgeführt wurde.
     * **Test 2:** Nach dem Deaktivieren einer zweiten Festplatte fiel das Volume erwartungsgemäß aus und wurde nicht mehr im System angezeigt.
-* [cite_start]**Ergebnis:** Der Test bestätigt erfolgreich die Funktionsweise von RAID 5, welches den Ausfall genau einer Festplatte kompensieren kann[cite: 5].
+* **Ergebnis:** Der Test bestätigt erfolgreich die Funktionsweise von RAID 5, welches den Ausfall genau einer Festplatte kompensieren kann.
 
 <img src="images/Raid 5.png" alt="Hyper V" width="700"/>
 
